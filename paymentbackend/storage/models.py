@@ -2,4 +2,11 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-# Create your models here.
+
+class Processor(models.Model):
+    name = models.CharField(max_length=255)
+
+
+class ApiKey(models.Model):
+    key = models.CharField(max_length=255)
+    processor = models.ForeignKey(Processor, related_name='api_keys')
