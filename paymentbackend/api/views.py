@@ -35,7 +35,7 @@ def process_quote(transaction):
             best_method = psp.name
             min_commission = psp.transaction_cost(transaction_value, midmarket_rate)
     log_transaction(transaction_value, min_commission, best_method, transaction.get('currency'), midmarket_rate, card_details)
-    return JsonResponse({'suggested_method': best_method})
+    return JsonResponse({'best_method': best_method})
 
 
 def get_midmarket_rate(currency):
