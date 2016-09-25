@@ -1,6 +1,6 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponse
-import json
+import json, os, requests
 
 from storage.models import Processor
 from logger.models import Transaction
@@ -23,6 +23,17 @@ def index(request):  # just a landing page
 
 def process_quote(transaction):
     pass
+
+
+def get_midmarket_rate(currency):
+    XIGNITE_ENDPOINT = 'http://globalcurrencies.xignite.com/xGlobalCurrencies.json/GetRealTimeRate?Symbol=%sGBP&_token=%s'
+    if currency == 'GBP':
+        return 1.0
+    else:
+        api_response = requests.get(XIGNITE_ENDPOINT % (currency, os.environ.get('XIGNITE_TOKEN')))
+        print api_response
+        return float(json.loads(api_response)['Mid'])
+
 
 # def process_quote(transaction_value):
 #     min_commission = float('inf')
