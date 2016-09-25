@@ -58,9 +58,9 @@ def log_transaction(value, commission, method, currency, midmarket, card_details
         transaction_fee=commission,
         net_transaction=gbp_value-commission,
 
-        card_brand=card_details['brand'],
-        card_issuer=card_details['bank'],
-        card_type=card_details['card_type'],
-        card_country=card_details['country_code'],
+        card_brand=card_details.get('brand'),
+        card_issuer=card_details.get('bank'),
+        card_type=card_details.get('card_type'),
+        card_country=card_details.get('country_code'),
     )
     log_entry.save()

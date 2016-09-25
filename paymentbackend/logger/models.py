@@ -13,10 +13,10 @@ class Transaction(models.Model):
     net_transaction = models.DecimalField(decimal_places=2, max_digits=10)
 
     # customer info
-    card_brand = models.CharField(max_length=255)
-    card_issuer = models.CharField(max_length=255)
-    card_type = models.CharField(max_length=255)
-    card_country = models.CharField(max_length=255)
+    card_brand = models.CharField(max_length=255, blank=True, null=True)
+    card_issuer = models.CharField(max_length=255, blank=True, null=True)
+    card_type = models.CharField(max_length=255, blank=True, null=True)
+    card_country = models.CharField(max_length=255, blank=True, null=True)
 
     #logging
     time = models.DateTimeField(auto_now=True)
