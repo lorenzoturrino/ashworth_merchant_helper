@@ -7,7 +7,7 @@ from logger.models import Transaction
 
 
 @csrf_exempt
-def best_quote(request):  # returns the best payment method. Expects a transaction_value:value key pair via POST
+def best_quote(request):  # returns the best payment method. Expects a json-encoded string of params.
     if request.method == 'POST':
         transaction = json.loads(request.body)
         if transaction.get('value') and transaction.get('currency'):
@@ -22,8 +22,16 @@ def index(request):  # just a landing page
 
 
 def process_quote(transaction):
-    rate = get_midmarket_rate(transaction.get('currency'))
-    return JsonResponse({'suggested_method': rate})
+    midmarket_rate = get_midmarket_rate(transaction.get('currency'))
+    transaction_value = transaction.get('value')
+    min_commission = float('inf')
+    best_method = None
+    for psp in Processor.objects.all():  # processing a query with a for loop. this will become a queryset.
+        if psp.transaction_cost(transaction_value, midmarket_rate) < min_commission:
+            best_method = psp.name
+            min_commission = psp.transaction_cost(transaction_value, midmarket_rate)
+    log_transaction(transaction_value, min_commission, best_method)
+    return JsonResponse({'suggested_method': best_method})
 
 
 def get_midmarket_rate(currency):
@@ -33,16 +41,6 @@ def get_midmarket_rate(currency):
     else:
         market_rate = requests.get(XIGNITE_ENDPOINT % (currency, os.environ.get('XIGNITE_TOKEN'))).json()
         return market_rate.get('Mid')
-
-# def process_quote(transaction_value):
-#     min_commission = float('inf')
-#     best_method = None
-#     for psp in Processor.objects.all():
-#         if psp.transaction_cost(transaction_value) < min_commission:
-#             best_method = psp.name
-#             min_commission = psp.transaction_cost(transaction_value)
-#     log_transaction(transaction_value, min_commission, best_method)
-#     return JsonResponse({'suggested_method': best_method})
 
 
 def log_transaction(value, commission, method):
