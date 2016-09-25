@@ -1,32 +1,32 @@
-MVP for the paytastic hackaton. send a POST request, get the best option for your transaction. admin forms to define the various quotes (read-only) and a log of all the past transactions (read only too)
+MVP for the paytastic hackaton. send a POST request, get the best option for your transaction. 
+admin forms to define the various quotes (read-only) and a log of all the past transactions (read only too)
 
-data structure expected by the api: json encoded with
-    - transaction value
-    - transaction currency
+data structure expected by the api: json encoded body
+{
+    'value': transaction_value,
+    'currency': 3_letter_currency_code,
+    'cardNumber': optional_card_number,
+}
 
-
-
-TODO:
- - create js (react? nah.) script for website inclusion
-    - inject form
-    - on click, call the ashwort api, update form to show 'in progress'
-    - on successfull callback, update the form with a success
+Sections:
+    -merchantscript, a fake html page + a sample jquery form injector+handler
+    -paymentbackend, a django application
     
- - create the api for the custom script
-    - api endpoint
-    - 3rd party api integration (mastercard, may something more)
-    - auth
-    
- - extra: expand to take into account the foreign currency fee
-    - grab as a parameter the currency
-    - ping xignite to check the mid market rate
-    - do some magic and decide which is the best option
-    
- - improve: move quote logic to queryset, not view
+Backend Installation:
+    - Install python (used 3.4.5, not sure on 2.7 compatibility) and pip
+    - optional: create a virtualenv
+    - run $ pip install -r requirements.txt
+    - cd into paymentbackend and run $ python manage.py migrate to update the DB schema
+    - run $ python manage.py createsuperuser to add an admin user to the db.
  
- - extra extra: more robust error and security handling
+Frontend: no installation. if you have node and want a quick way to serve files locally do.
+    - Install Node
+    - run $ npm install http-server -g
+
+Running project:
+    - in a shell, cd to paymentbackend and run $ python manage.py runserver
+    - in a second shell, cd to merchantscript and run $ http=server
+    - you might need to tweak the js script since it's hardcoded to look for the backend at 'http://127.0.0.1:8000/'
+    - the admin dasboard is availalbe on the backend server at /admin
  
- - extra extra extra: make coffee
- 
- 
- Code by Lorenzo Turrino
+Code by Lorenzo Turrino
