@@ -23,7 +23,7 @@ $( document ).ready(function() {
     }
 
     function sendData(){
-        var cardNumber = $("#card-number");
+        var cardNumber = $("#card-number").val();
         var value = 73.74;
         var currency = 'GBP';
         var ashApi = 'http://127.0.0.1:8000/api/v1/best_quote/';

@@ -22,6 +22,10 @@ def index(request):  # just a landing page
 
 
 def process_quote(transaction):
+    if(transaction.get('cardNumber')):
+        card_details = get_card_details(transaction.get('cardNumber'))
+    else:
+        card_details = {}
     midmarket_rate = get_midmarket_rate(transaction.get('currency'))
     transaction_value = transaction.get('value')
     min_commission = float('inf')
@@ -30,7 +34,7 @@ def process_quote(transaction):
         if psp.transaction_cost(transaction_value, midmarket_rate) < min_commission:
             best_method = psp.name
             min_commission = psp.transaction_cost(transaction_value, midmarket_rate)
-    log_transaction(transaction_value, min_commission, best_method, transaction.get('currency'), midmarket_rate)
+    log_transaction(transaction_value, min_commission, best_method, transaction.get('currency'), midmarket_rate, card_details)
     return JsonResponse({'suggested_method': best_method})
 
 
@@ -42,8 +46,11 @@ def get_midmarket_rate(currency):
         market_rate = requests.get(XIGNITE_ENDPOINT % (currency, os.environ.get('XIGNITE_TOKEN'))).json()
         return market_rate.get('Mid')
 
+def get_card_details(card_number):
+    BINLIST_ENDPOINT = 'https://binlist.net/json/%s'
+    return requests.get(BINLIST_ENDPOINT % card_number).json()
 
-def log_transaction(value, commission, method, currency, midmarket):
+def log_transaction(value, commission, method, currency, midmarket, card_details):
     gbp_value = value * midmarket
     log_entry = Transaction(
         amount=value,
@@ -53,5 +60,10 @@ def log_transaction(value, commission, method, currency, midmarket):
         method=method,
         transaction_fee=commission,
         net_transaction=gbp_value-commission,
+
+        card_brand=card_details.get('brand'),
+        card_issuer=card_details.get('bank'),
+        card_type=card_details.get('card_type'),
+        card_country=card_details.get('country_code'),
     )
     log_entry.save()
