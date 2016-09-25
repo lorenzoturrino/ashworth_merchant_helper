@@ -22,7 +22,8 @@ def index(request):  # just a landing page
 
 
 def process_quote(transaction):
-    pass
+    rate = get_midmarket_rate(transaction.get('currency'))
+    return JsonResponse({'suggested_method': rate})
 
 
 def get_midmarket_rate(currency):
@@ -30,10 +31,8 @@ def get_midmarket_rate(currency):
     if currency == 'GBP':
         return 1.0
     else:
-        api_response = requests.get(XIGNITE_ENDPOINT % (currency, os.environ.get('XIGNITE_TOKEN')))
-        print api_response
-        return float(json.loads(api_response)['Mid'])
-
+        market_rate = requests.get(XIGNITE_ENDPOINT % (currency, os.environ.get('XIGNITE_TOKEN'))).json()
+        return market_rate.get('Mid')
 
 # def process_quote(transaction_value):
 #     min_commission = float('inf')
