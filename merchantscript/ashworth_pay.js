@@ -26,8 +26,21 @@ $( document ).ready(function() {
         var cardNumber = $("#card-number");
         var value = 73.74;
         var currency = 'GBP';
-
-        $.post();
+        var ashApi = 'http://127.0.0.1:8000/api/v1/best_quote/';
+        $.post(ashApi,JSON.stringify({
+            value: value,
+            currency: currency,
+            cardNumber: cardNumber
+        }))
+            .done(function(res) {
+                console.log('done', res);
+            })
+            .fail(function (err) {
+                console.log('error', err);
+            })
+            .always(function (data) {
+                console.log('eof', data);
+            });
     }
 
 
