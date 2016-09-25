@@ -7,6 +7,12 @@ class Processor(models.Model):
     name = models.CharField(max_length=255)
     active = models.BooleanField()
     description = models.CharField(max_length=255)
+    base_rate = models.FloatField()
+    percentage_rate = models.FloatField()
+
+    @property
+    def transaction_cost(self, value):
+        return self.base_rate + self.percentage_rate * value
 
     def __str__(self):
         return self.name
