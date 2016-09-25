@@ -12,6 +12,12 @@ class Transaction(models.Model):
     transaction_fee = models.DecimalField(decimal_places=2, max_digits=10)
     net_transaction = models.DecimalField(decimal_places=2, max_digits=10)
 
+    # customer info
+    card_brand = models.CharField(max_length=255)
+    card_issuer = models.CharField(max_length=255)
+    card_type = models.CharField(max_length=255)
+    card_country = models.CharField(max_length=255)
+
     #logging
     time = models.DateTimeField(auto_now=True)
 
