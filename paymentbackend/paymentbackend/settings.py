@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     #apps
     'storage',
     'api',
+    'logger',
 ]
 
 MIDDLEWARE = [
