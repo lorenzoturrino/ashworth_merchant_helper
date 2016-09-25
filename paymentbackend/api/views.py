@@ -22,6 +22,7 @@ def index(request):  # just a landing page
 
 
 def process_quote(transaction):
+    get_card_details(transaction.get('cardNumber'))
     midmarket_rate = get_midmarket_rate(transaction.get('currency'))
     transaction_value = transaction.get('value')
     min_commission = float('inf')
@@ -42,6 +43,12 @@ def get_midmarket_rate(currency):
         market_rate = requests.get(XIGNITE_ENDPOINT % (currency, os.environ.get('XIGNITE_TOKEN'))).json()
         return market_rate.get('Mid')
 
+def get_card_details(card_number):
+    BINLIST_ENDPOINT = 'https://binlist.net/json/%s'
+    card_info = requests.get(BINLIST_ENDPOINT % card_number)
+    print('DEBUG IN')
+    print(card_info)
+    print('DEBUG OUT')
 
 def log_transaction(value, commission, method, currency, midmarket):
     gbp_value = value * midmarket
