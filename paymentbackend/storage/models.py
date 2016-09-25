@@ -10,7 +10,6 @@ class Processor(models.Model):
     base_rate = models.FloatField()
     percentage_rate = models.FloatField()
 
-    @property
     def transaction_cost(self, value):
         return self.base_rate + self.percentage_rate * value
 
