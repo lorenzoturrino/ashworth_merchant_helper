@@ -7,11 +7,6 @@ from .models import Transaction
 class TransactionAdmin(admin.ModelAdmin):
     readonly_fields = ['id', 'amount', 'currency', 'gbp_value', 'method', 'transaction_fee', 'net_transaction', 'time', 'fee_percentage']
     list_display = ['id', 'time', 'amount', 'currency', 'net_transaction', 'method', ]
-    # fields = (
-    #     ('id', 'time'),
-    #     ('amount', 'currency', 'gbp_value', 'net_transaction'),
-    #     ('method', 'transaction_fee'),
-    # )
     fieldsets = [
         (None, {
             'fields': (('id', 'time'),)

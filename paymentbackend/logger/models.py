@@ -3,14 +3,14 @@ from django.db import models
 
 class Transaction(models.Model):
     # original transaction
-    amount = models.FloatField()
+    amount = models.DecimalField(decimal_places=2, max_digits=10)
     currency = models.TextField(max_length=10)
-    gbp_value = models.FloatField()
+    gbp_value = models.DecimalField(decimal_places=2, max_digits=10)
 
     # payment processor
     method = models.CharField(max_length=255)
-    transaction_fee = models.FloatField()
-    net_transaction = models.FloatField()
+    transaction_fee = models.DecimalField(decimal_places=2, max_digits=10)
+    net_transaction = models.DecimalField(decimal_places=2, max_digits=10)
 
     #logging
     time = models.DateTimeField(auto_now=True)
