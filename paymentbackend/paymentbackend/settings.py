@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     #apps
     'storage',
+    'api',
 ]
 
 MIDDLEWARE = [
