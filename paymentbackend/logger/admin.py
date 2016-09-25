@@ -17,6 +17,9 @@ class TransactionAdmin(admin.ModelAdmin):
         ('Payment Processor', {
             'fields': (('method', 'transaction_fee', 'fee_percentage'),),
         }),
+        ('Customer', {
+            'fields': (('card_brand', 'card_type', 'card_country', 'card_issuer'),),
+        }),
     ]
 
     actions = None
