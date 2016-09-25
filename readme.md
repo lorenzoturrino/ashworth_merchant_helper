@@ -1,5 +1,10 @@
 MVP for the paytastic hackaton. send a POST request, get the best option for your transaction. admin forms to define the various quotes (read-only) and a log of all the past transactions (read only too)
 
+data structure expected by the api: json encoded with
+    - transaction value
+    - transaction currency
+
+
 
 TODO:
  - create js (react? nah.) script for website inclusion
