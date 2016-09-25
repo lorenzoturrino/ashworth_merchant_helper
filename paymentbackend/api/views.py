@@ -22,7 +22,10 @@ def index(request):  # just a landing page
 
 
 def process_quote(transaction):
-    card_details = get_card_details(transaction.get('cardNumber'))
+    if(transaction.get('cardNumber')):
+        card_details = get_card_details(transaction.get('cardNumber'))
+    else:
+        card_details = {}
     midmarket_rate = get_midmarket_rate(transaction.get('currency'))
     transaction_value = transaction.get('value')
     min_commission = float('inf')
