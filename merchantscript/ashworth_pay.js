@@ -33,14 +33,13 @@ $( document ).ready(function() {
             cardNumber: cardNumber
         }))
             .done(function(res) {
-                console.log('done', res);
+                $('#ashworthpay').html('<h3 style="color:DarkGreen">Payment successfully completed!</h3>')
             })
             .fail(function (err) {
                 console.log('error', err);
+                $('#ashworthpay').html('<h3 style="color:DarkRed">Something broke :(</h3>')
             })
-            .always(function (data) {
-                console.log('eof', data);
-            });
+
     }
 
 
