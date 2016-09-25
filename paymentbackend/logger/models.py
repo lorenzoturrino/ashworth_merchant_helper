@@ -23,4 +23,4 @@ class Transaction(models.Model):
 
     @property
     def fee_percentage(self):
-        return self.transaction_fee / self.gbp_value
+        return '%.2f' % (self.transaction_fee / self.gbp_value * 100) + r'%'

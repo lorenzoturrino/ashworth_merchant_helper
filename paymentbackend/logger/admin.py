@@ -5,7 +5,8 @@ from .models import Transaction
 
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
-    readonly_fields = ['id', 'amount', 'currency', 'gbp_value', 'method', 'transaction_fee', 'net_transaction', 'time', 'fee_percentage']
+    readonly_fields = ['id', 'amount', 'currency', 'gbp_value', 'method', 'transaction_fee', 'net_transaction', 'time',
+                       'fee_percentage', 'card_brand', 'card_type', 'card_country', 'card_issuer']
     list_display = ['id', 'time', 'amount', 'currency', 'net_transaction', 'method', ]
     fieldsets = [
         (None, {
