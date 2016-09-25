@@ -3,11 +3,18 @@
 
 $( document ).ready(function() {
 
-    hook = $('.ashworthpay');
+    var form_html = '<form id="ashworth-pay-form"><input type="number" name="cardnumber" placeholder="card number">' +
+        '<input type="number" name="month" placeholder="expiry month">' +
+        '<input type="number" name="year" placeholder="expiry year">' +
+        '<input type="number" name="ccv" placeholder="card ccv"></form>' +
+        '<input type="submit"></form>'
+        
+    var hook = $('#ashworthpay');
+    
     if(!hook.length) {
         console.log('WARNING! no element found to hook the payment form to.');
     } else {
-        // stuff.
+        hook.append(form_html)
     }
 
 });
